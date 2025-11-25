@@ -1,8 +1,135 @@
 <!DOCTYPE html>
 <html>
   <style>
+body {
+  background: #0d0d0d; /* full darkmode */
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: New Century Schoolbook, serif;
+  color: #FFBB00;
+}
+
+/* container */
+.clock-container {
+  position: relative;
+  width: 1000px;
+  height: 1000px;
+}
+
+/* center sun */
+.sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  background: #FFBB00;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Orbit base */
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform-origin: center center;
+}
+
+/* Earth orbit path */
+.earth-orbit {
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  animation: earth-spin 20s linear infinite;
+}
+
+.earth-orbit::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #FFBB00;
+  border-radius: 50%;
+}
+
+/* Earth */
+.planet.earth {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: #FFBB00;
+  border-radius: 50%;
+  transform: translateX(154px) translate(-50%, -50%);
+}
+
+/* Moon orbit */
+.moon-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: moon-spin 6s linear infinite;
+}
+
+.moon-orbit::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #FFBB00;
+  border-radius: 50%;
+}
+
+/* Moon */
+.moon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #FFBB00;
+  border-radius: 50%;
+  transform: translateX(42px) translate(-50%, -50%);
+}
+
+/* clock text */
+.time {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -165%);
+  font-size: 22px;
+}
+
+.day {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 140%);
+  font-size: 20px;
+}
+
+/* animations */
+@keyframes earth-spin {
+  100% { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes moon-spin {
+  100% { transform: translate(-50%, -50%) rotate(-360deg); }
+}
 
   </style>
+<body>
 <div class="clock-container">
 
   <div class="time" id="time"></div>
@@ -22,7 +149,27 @@
 
     </div>
   </div>
+<script>
+function updateClock() {
+  const now = new Date();
 
+  const timeStr = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+
+  const dayStr = now.toLocaleDateString([], {
+    weekday: "long"
+  });
+
+  document.getElementById("time").textContent = timeStr;
+  document.getElementById("day").textContent = dayStr;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+</script>
 </div>
-
+</body>
 </html>
